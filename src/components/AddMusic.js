@@ -104,6 +104,7 @@ const AddMusicPage = () => {
             <Form.Control
               type="text"
               value={title}
+              name="title"
               onChange={e => setTitle(e.target.value)}
             />
           </Form.Group>
@@ -121,6 +122,7 @@ const AddMusicPage = () => {
               <Form.Control
                 type="text"
                 value={newArtistName}
+                name="artist_id"
                 onChange={e => setNewArtistName(e.target.value)}
               />
             </Form.Group>
@@ -129,6 +131,7 @@ const AddMusicPage = () => {
               <Form.Label>Artiste :</Form.Label>
               <Form.Select
                 value={artistId}
+                name="artist_id"
                 onChange={e => setArtistId(parseInt(e.target.value, 10))}>
                 {artists.map(artist => (
                   <option key={artist.id} value={artist.id}>
@@ -152,6 +155,7 @@ const AddMusicPage = () => {
               <Form.Control
                 type="text"
                 value={newAlbumTitle}
+                name="album_id"
                 onChange={e => setNewAlbumTitle(e.target.value)}
               />
             </Form.Group>
@@ -160,6 +164,7 @@ const AddMusicPage = () => {
               <Form.Label>Album :</Form.Label>
               <Form.Select
                 value={albumId}
+                name="album_id"
                 onChange={e => setAlbumId(parseInt(e.target.value, 10))}>
                 {albums.map(album => (
                   <option key={album.id} value={album.id}>
@@ -173,6 +178,7 @@ const AddMusicPage = () => {
             <Form.Label>Chemin du fichier :</Form.Label>
             <Form.Control
               type="file"
+              name="file"
               onChange={e => setFilePath(e.target.value)}
             />
           </Form.Group>
