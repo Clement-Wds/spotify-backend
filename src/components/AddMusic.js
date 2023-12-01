@@ -1,33 +1,33 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
-import {Container, Form, Button, Card} from 'react-bootstrap';
+import {Container, Card, Form, Button} from 'react-bootstrap';
 
-const AddMusicPage = () => {
+const AddMusic = () => {
   const [title, setTitle] = useState('');
-  const [artistId, setArtistId] = useState('');
-  const [albumId, setAlbumId] = useState('');
-  const [filePath, setFilePath] = useState('');
-  const [artists, setArtists] = useState([]);
-  const [albums, setAlbums] = useState([]);
   const [newArtist, setNewArtist] = useState(false);
   const [newArtistName, setNewArtistName] = useState('');
+  const [artistId, setArtistId] = useState(null);
   const [newAlbum, setNewAlbum] = useState(false);
   const [newAlbumTitle, setNewAlbumTitle] = useState('');
+  const [albumId, setAlbumId] = useState(null);
+  const [file, setFile] = useState(null);
+
+  const [artists, setArtists] = useState([]);
+  const [albums, setAlbums] = useState([]);
 
   useEffect(() => {
-    const fetchArtists = async () => {
-      const response = await axios.get('http://localhost:3001/api/artists');
-      setArtists(response.data);
+    const fetchArtistsAndAlbums = async () => {
+      const artistsResponse = await axios.get(
+        'http://localhost:3001/api/artists',
+      );
+      const albumsResponse = await axios.get(
+        'http://localhost:3001/api/albums',
+      );
+      setArtists(artistsResponse.data);
+      setAlbums(albumsResponse.data);
     };
-    fetchArtists();
-  }, []);
 
-  useEffect(() => {
-    const fetchAlbums = async () => {
-      const response = await axios.get('http://localhost:3001/api/albums');
-      setAlbums(response.data);
-    };
-    fetchAlbums();
+    fetchArtistsAndAlbums();
   }, []);
 
   const handleSubmit = async event => {
@@ -68,17 +68,20 @@ const AddMusicPage = () => {
         albumIdToUse = albumResponse.data.id;
       }
 
+      // Création d'un objet FormData
+      const formData = new FormData();
+      formData.append('title', title);
+      formData.append('artist_id', artistIdToUse);
+      formData.append('album_id', albumIdToUse);
+      formData.append('file', file); // Ajout du fichier
+
       const response = await axios.post(
         'http://localhost:3001/api/music',
-        {
-          title,
-          artist_id: artistIdToUse,
-          album_id: albumIdToUse,
-          filePath,
-        },
+        formData, // Envoi de l'objet FormData
         {
           headers: {
             Authorization: `Bearer ${token}`,
+            'Content-Type': 'multipart/form-data', // Ajout du type de contenu
           },
         },
       );
@@ -179,7 +182,7 @@ const AddMusicPage = () => {
             <Form.Control
               type="file"
               name="file"
-              onChange={e => setFilePath(e.target.value)}
+              onChange={e => setFile(e.target.files[0])} // Modification de la gestion du fichier
             />
           </Form.Group>
           <Form.Group className="mb-3 d-flex justify-content-center">
@@ -193,4 +196,4 @@ const AddMusicPage = () => {
   );
 };
 
-export default AddMusicPage;
+export default AddMusic;
