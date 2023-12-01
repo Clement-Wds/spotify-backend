@@ -1,10 +1,19 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import {Container, Form, Button, Card} from 'react-bootstrap';
+import {useNavigate} from 'react-router-dom';
 
 const LoginPage = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      navigate('/home');
+    }
+  }, [navigate]);
 
   const handleSubmit = async event => {
     event.preventDefault();
@@ -18,6 +27,7 @@ const LoginPage = () => {
       if (response.data && response.data.token) {
         localStorage.setItem('token', response.data.token);
         alert('Connexion réussie !');
+        navigate('/home');
       } else {
         alert('Erreur de connexion');
       }
