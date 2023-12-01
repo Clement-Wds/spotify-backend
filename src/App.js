@@ -1,12 +1,26 @@
 import React from 'react';
-import LoginPage from './components/Login'; // Assurez-vous que le chemin d'importation est correct
+import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
+import LoginPage from './pages/LoginPage';
+import AddAlbumPage from './pages/AddAlbumPage';
+import AddArtistPage from './pages/AddArtistPage';
+import AddMusicPage from './pages/AddMusicPage';
 
-const App = () => {
+import HomePage from './pages/HomePage';
+
+function App() {
   return (
-    <div className="App">
-      <LoginPage />
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/music/create" element={<AddMusicPage />} />
+        <Route path="/album/create" element={<AddAlbumPage />} />
+        <Route path="/artist/create" element={<AddArtistPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/home" element={<HomePage />} />
+        <Route path="/" element={<LoginPage />} />
+        <Route path="/artist/edit/:id" element={<AddMusicPage />} />
+      </Routes>
+    </Router>
   );
-};
+}
 
 export default App;
