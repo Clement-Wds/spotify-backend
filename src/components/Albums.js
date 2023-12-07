@@ -1,13 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
-import {Link, useNavigate} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import {Container, Row, Col, Card, Modal, Button} from 'react-bootstrap';
 
 const Albums = () => {
   const [albums, setAlbums] = useState([]);
   const [show, setShow] = useState(false);
   const [selectedAlbum, setSelectedAlbum] = useState(null);
-  const navigate = useNavigate();
 
   const handleClose = () => setShow(false);
   const handleShow = albumId => {
@@ -31,7 +30,7 @@ const Albums = () => {
     try {
       const token = localStorage.getItem('token');
       const response = await axios.delete(
-        `http://localhost:3001/api/albums/${albumId}`,
+        `http://localhost:3001/api/album/${albumId}`,
         {
           headers: {Authorization: `Bearer ${token}`},
         },
@@ -44,14 +43,14 @@ const Albums = () => {
       }
     } catch (error) {
       console.error(
-        "Une erreur est survenue lors de la suppression de l'artiste",
+        "Une erreur est survenue lors de la suppression de l'album",
         error,
       );
     }
   };
   return (
     <Container>
-      <h1 className="text-center my-4">Tout les albums</h1>
+      <h1 className="text-center my-4">Tout les albums ({albums.length})</h1>
       <Row className="justify-content-center">
         {albums.map((album, index) => (
           <Col xs={6} md={3} key={index} className="mb-4">

@@ -7,7 +7,7 @@ const ModifyAlbum = () => {
   const [title, setTitle] = useState('');
   const {id} = useParams();
   const navigate = useNavigate();
-
+  const [artistId, setArtistId] = useState('');
   useEffect(() => {
     const fetchAlbum = async () => {
       try {
@@ -15,6 +15,7 @@ const ModifyAlbum = () => {
           `http://localhost:3001/api/album/${id}`,
         );
         setTitle(response.data.title);
+        setArtistId(response.data.artist_id); // Update artistId when you fetch the album data
       } catch (error) {
         console.error('Une erreur est survenue', error);
       }
@@ -25,12 +26,11 @@ const ModifyAlbum = () => {
 
   const handleSubmit = async e => {
     e.preventDefault();
-
     try {
       const token = localStorage.getItem('token');
       await axios.put(
         `http://localhost:3001/api/album/${id}`,
-        {title},
+        {title, artist_id: artistId}, // Include artist_id in your request body
         {
           headers: {Authorization: `Bearer ${token}`},
         },

@@ -50,7 +50,7 @@ const Artists = () => {
   };
   return (
     <Container>
-      <h1 className="text-center my-4">Tout les artistes</h1>
+      <h1 className="text-center my-4">Tout les artistes ({artists.length})</h1>
       <Row className="justify-content-center">
         {artists.map((artist, index) => (
           <Col xs={6} md={3} key={index} className="mb-4">
