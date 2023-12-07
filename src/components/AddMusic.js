@@ -28,7 +28,19 @@ const AddMusic = () => {
     };
     fetchAlbums();
   }, [artistId]);
-  
+
+  useEffect(() => {
+    const fetchArtists = async () => {
+      const response = await axios.get('http://localhost:3001/api/artists');
+      setArtists(response.data);
+      if (response.data.length > 0) {
+        // Check if the artist list is not empty
+        setArtistId(response.data[0].id); // Set artistId to the first artist in the list
+      }
+    };
+    fetchArtists();
+  }, []);
+
   const handleSubmit = async event => {
     event.preventDefault();
 
@@ -115,7 +127,9 @@ const AddMusic = () => {
               type="checkbox"
               label="Nouvel artiste"
               checked={newArtist}
-              onChange={e => setNewArtist(e.target.checked)}
+              onChange={e =>
+                setNewArtist(e.target.checked) & setNewAlbum(e.target.checked)
+              }
             />
           </Form.Group>
           {newArtist ? (

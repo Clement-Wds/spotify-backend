@@ -49,7 +49,7 @@ const Musics = () => {
   };
   return (
     <Container>
-      <h1 className="text-center my-4">Toute les musiques</h1>
+      <h1 className="text-center my-4">Toute les musiques ({musics.length})</h1>
       <Row className="justify-content-center">
         {musics.map((music, index) => (
           <Col xs={6} md={3} key={index} className="mb-4">
