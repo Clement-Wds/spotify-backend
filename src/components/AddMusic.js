@@ -24,12 +24,17 @@ const AddMusicPage = () => {
 
   useEffect(() => {
     const fetchAlbums = async () => {
-      const response = await axios.get('http://localhost:3001/api/albums');
-      setAlbums(response.data);
+      if (artistId) {
+        const response = await axios.get(
+          `http://localhost:3001/api/artist/${artistId}/albums`,
+        );
+        setAlbums(response.data);
+      } else {
+        setAlbums([]);
+      }
     };
     fetchAlbums();
-  }, []);
-
+  }, [artistId]);
   const handleSubmit = async event => {
     event.preventDefault();
 
