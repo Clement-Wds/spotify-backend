@@ -16,20 +16,19 @@ const AddMusic = () => {
   const [albums, setAlbums] = useState([]);
 
   useEffect(() => {
-    const fetchArtistsAndAlbums = async () => {
-      const artistsResponse = await axios.get(
-        'http://localhost:3001/api/artists',
-      );
-      const albumsResponse = await axios.get(
-        'http://localhost:3001/api/albums',
-      );
-      setArtists(artistsResponse.data);
-      setAlbums(albumsResponse.data);
+    const fetchAlbums = async () => {
+      if (artistId) {
+        const response = await axios.get(
+          `http://localhost:3001/api/artist/${artistId}/albums`,
+        );
+        setAlbums(response.data);
+      } else {
+        setAlbums([]);
+      }
     };
-
-    fetchArtistsAndAlbums();
-  }, []);
-
+    fetchAlbums();
+  }, [artistId]);
+  
   const handleSubmit = async event => {
     event.preventDefault();
 
