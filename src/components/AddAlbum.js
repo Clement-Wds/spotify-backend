@@ -8,14 +8,14 @@ const AddAlbumPage = () => {
   const [artists, setArtists] = useState([]);
   const [newArtist, setNewArtist] = useState(false);
   const [newArtistName, setNewArtistName] = useState('');
+  const [coverImage, setCoverImage] = useState(null); // Ajout d'un état pour l'image de couverture
 
   useEffect(() => {
     const fetchArtists = async () => {
       const response = await axios.get('http://localhost:3001/api/artists');
       setArtists(response.data);
       if (response.data.length > 0) {
-        // Check if the artist list is not empty
-        setArtistId(response.data[0].id); // Set artistId to the first artist in the list
+        setArtistId(response.data[0].id);
       }
     };
     fetchArtists();
@@ -42,15 +42,18 @@ const AddAlbumPage = () => {
         artistIdToUse = artistResponse.data.id;
       }
 
+      const formData = new FormData(); // Utilisation de FormData pour envoyer l'image
+      formData.append('title', title);
+      formData.append('artist_id', artistIdToUse);
+      formData.append('coverImagePath', coverImage); // Ajout de l'image de couverture
+
       const response = await axios.post(
         'http://localhost:3001/api/album',
-        {
-          title,
-          artist_id: artistIdToUse,
-        },
+        formData,
         {
           headers: {
             Authorization: `Bearer ${token}`,
+            'Content-Type': 'multipart/form-data', // Définition du type de contenu pour l'envoi de fichiers
           },
         },
       );
@@ -77,6 +80,13 @@ const AddAlbumPage = () => {
               type="text"
               value={title}
               onChange={e => setTitle(e.target.value)}
+            />
+          </Form.Group>
+          <Form.Group className="mb-3">
+            <Form.Label>Image de couverture :</Form.Label>
+            <Form.Control
+              type="file"
+              onChange={e => setCoverImage(e.target.files[0])} // Mise à jour de l'état de l'image de couverture lorsqu'un fichier est sélectionné
             />
           </Form.Group>
           <Form.Group className="mb-3">
