@@ -22,6 +22,10 @@ const AddMusic = () => {
           `http://localhost:3001/api/artist/${artistId}/albums`,
         );
         setAlbums(response.data);
+        if (response.data.length > 0) {
+          // Check if the artist list is not empty
+          setAlbumId(response.data[0].id); // Set artistId to the first artist in the list
+        }
       } else {
         setAlbums([]);
       }
@@ -41,6 +45,9 @@ const AddMusic = () => {
     fetchArtists();
   }, []);
 
+  useEffect(() => {
+    console.log(albumId);
+  });
   const handleSubmit = async event => {
     event.preventDefault();
 
