@@ -1,12 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
-import {Link} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import {Container, Row, Col, Card, Modal, Button} from 'react-bootstrap';
 
 const Musics = () => {
   const [musics, setmusics] = useState([]);
   const [show, setShow] = useState(false);
   const [selectedMusic, setSelectedMusic] = useState(null);
+  const navigate = useNavigate();
 
   const handleClose = () => setShow(false);
   const handleShow = musicId => {
@@ -54,8 +55,6 @@ const Musics = () => {
         {musics.map((music, index) => (
           <Col xs={6} md={3} key={index} className="mb-4">
             <Card
-              as={Link}
-              to={`/music/edit/${music.id}`}
               onClick={() => handleShow(music.id)}
               style={{cursor: 'pointer'}}>
               <Card.Img variant="top" src="https://via.placeholder.com/150" />
@@ -72,18 +71,20 @@ const Musics = () => {
         </Modal.Header>
         <Modal.Body className="d-flex flex-column align-items-center">
           <Button
-            as={Link}
-            to={`/music/edit/${selectedMusic}`}
+            onClick={() => {
+              handleClose();
+              navigate(`/music/edit/${selectedMusic}`);
+            }}
             variant="warning"
             className="mb-3"
             style={{width: '80%'}}>
-            Modifier l'artiste
+            Modifier la musique
           </Button>
           <Button
             onClick={() => deleteMusic(selectedMusic)}
             variant="danger"
             style={{width: '80%'}}>
-            Supprimer l'artiste
+            Supprimer la musique
           </Button>
         </Modal.Body>
       </Modal>
