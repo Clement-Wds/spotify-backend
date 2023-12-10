@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import {Container, Form, Button, Card} from 'react-bootstrap';
+import {useNavigate} from 'react-router-dom';
 
 const AddAlbumPage = () => {
   const [title, setTitle] = useState('');
@@ -9,6 +10,7 @@ const AddAlbumPage = () => {
   const [newArtist, setNewArtist] = useState(false);
   const [newArtistName, setNewArtistName] = useState('');
   const [coverImage, setCoverImage] = useState(null); // Ajout d'un état pour l'image de couverture
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchArtists = async () => {
@@ -65,6 +67,10 @@ const AddAlbumPage = () => {
       }
     } catch (error) {
       console.error('Une erreur est survenue', error);
+      if (error.response && error.response.status === 403) {
+        // Si le statut de la réponse est 403, rediriger vers la page de connexion
+        navigate('/');
+      }
     }
   };
 

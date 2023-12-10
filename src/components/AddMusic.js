@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
-import {Container, Card, Form, Button} from 'react-bootstrap';
+import {Container, Card, Form, Button, Spinner} from 'react-bootstrap';
+import {useNavigate} from 'react-router-dom';
 
 const AddMusic = () => {
   const [title, setTitle] = useState('');
@@ -11,9 +12,11 @@ const AddMusic = () => {
   const [newAlbumTitle, setNewAlbumTitle] = useState('');
   const [albumId, setAlbumId] = useState(null);
   const [file, setFile] = useState(null);
-
+  const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
   const [artists, setArtists] = useState([]);
   const [albums, setAlbums] = useState([]);
+  const [coverImage, setCoverImage] = useState(null); // Ajout d'un état pour l'image de couverture
 
   useEffect(() => {
     const fetchAlbums = async () => {
@@ -50,6 +53,7 @@ const AddMusic = () => {
   });
   const handleSubmit = async event => {
     event.preventDefault();
+    setIsLoading(true);
 
     try {
       const token = localStorage.getItem('token');
@@ -71,15 +75,17 @@ const AddMusic = () => {
 
       let albumIdToUse = albumId;
       if (newAlbum) {
+        const formDataNewAlbum = new FormData();
+        formDataNewAlbum.append('title', newAlbumTitle);
+        formDataNewAlbum.append('artist_id', artistIdToUse);
+        formDataNewAlbum.append('coverImagePath', coverImage);
         const albumResponse = await axios.post(
           'http://localhost:3001/api/album',
-          {
-            title: newAlbumTitle,
-            artist_id: artistIdToUse,
-          },
+          formDataNewAlbum,
           {
             headers: {
               Authorization: `Bearer ${token}`,
+              'Content-Type': 'multipart/form-data', // Définition du type de contenu pour l'envoi de fichiers
             },
           },
         );
@@ -106,11 +112,18 @@ const AddMusic = () => {
 
       if (response.data) {
         alert('Musique ajoutée avec succès !');
+        navigate('/home');
       } else {
         alert("Erreur lors de l'ajout de la musique");
       }
     } catch (error) {
       console.error('Une erreur est survenue', error);
+      if (error.response && error.response.status === 403) {
+        // Si le statut de la réponse est 403, rediriger vers la page de connexion
+        navigate('/');
+      }
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -173,15 +186,24 @@ const AddMusic = () => {
             />
           </Form.Group>
           {newAlbum ? (
-            <Form.Group className="mb-3">
-              <Form.Label>Titre de l'album :</Form.Label>
-              <Form.Control
-                type="text"
-                value={newAlbumTitle}
-                name="album_id"
-                onChange={e => setNewAlbumTitle(e.target.value)}
-              />
-            </Form.Group>
+            <>
+              <Form.Group className="mb-3">
+                <Form.Label>Titre de l'album :</Form.Label>
+                <Form.Control
+                  type="text"
+                  value={newAlbumTitle}
+                  name="album_id"
+                  onChange={e => setNewAlbumTitle(e.target.value)}
+                />
+              </Form.Group>
+              <Form.Group className="mb-3">
+                <Form.Label>Image de couverture :</Form.Label>
+                <Form.Control
+                  type="file"
+                  onChange={e => setCoverImage(e.target.files[0])} // Mise à jour de l'état de l'image de couverture lorsqu'un fichier est sélectionné
+                />
+              </Form.Group>
+            </>
           ) : (
             <Form.Group className="mb-3">
               <Form.Label>Album :</Form.Label>
@@ -206,8 +228,12 @@ const AddMusic = () => {
             />
           </Form.Group>
           <Form.Group className="mb-3 d-flex justify-content-center">
-            <Button variant="primary" type="submit">
-              Ajouter une musique
+            <Button variant="primary" type="submit" disabled={isLoading}>
+              {isLoading ? (
+                <Spinner animation="border" size="sm" />
+              ) : (
+                'Ajouter une musique'
+              )}
             </Button>
           </Form.Group>
         </Form>

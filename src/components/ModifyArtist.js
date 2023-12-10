@@ -42,6 +42,10 @@ const ModifyArtist = () => {
         "Une erreur est survenue lors de la modification de l'artiste",
         error,
       );
+      if (error.response && error.response.status === 403) {
+        // Si le statut de la réponse est 403, rediriger vers la page de connexion
+        navigate('/');
+      }
     }
   };
 
