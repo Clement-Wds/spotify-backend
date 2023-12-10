@@ -1,9 +1,11 @@
 import React, {useState} from 'react';
 import axios from 'axios';
 import {Container, Form, Button, Card} from 'react-bootstrap';
+import {useNavigate} from 'react-router-dom';
 
 const AddArtistPage = () => {
   const [name, setName] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = async event => {
     event.preventDefault();
@@ -29,6 +31,10 @@ const AddArtistPage = () => {
       }
     } catch (error) {
       console.error('Une erreur est survenue', error);
+      if (error.response && error.response.status === 403) {
+        // Si le statut de la réponse est 403, rediriger vers la page de connexion
+        navigate('/');
+      }
     }
   };
 

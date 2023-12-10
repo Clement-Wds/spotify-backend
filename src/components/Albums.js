@@ -1,12 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
-import {Link} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import {Container, Row, Col, Card, Modal, Button} from 'react-bootstrap';
 
 const Albums = () => {
   const [albums, setAlbums] = useState([]);
   const [show, setShow] = useState(false);
   const [selectedAlbum, setSelectedAlbum] = useState(null);
+  const navigate = useNavigate();
 
   const handleClose = () => setShow(false);
   const handleShow = albumId => {
@@ -46,6 +47,10 @@ const Albums = () => {
         "Une erreur est survenue lors de la suppression de l'album",
         error,
       );
+      if (error.response && error.response.status === 403) {
+        // Si le statut de la réponse est 403, rediriger vers la page de connexion
+        navigate('/');
+      }
     }
   };
   return (
@@ -57,7 +62,11 @@ const Albums = () => {
             <Card
               onClick={() => handleShow(album.id)}
               style={{cursor: 'pointer'}}>
-              <Card.Img variant="top" src="https://via.placeholder.com/150" />
+              <Card.Img
+                variant="top"
+                src={`http://localhost:3001/api/album/image/${album.id}`}
+                style={{width: '100%', height: '250px', objectFit: 'cover'}}
+              />
               <Card.Body>
                 <Card.Title className="text-center">{album.title}</Card.Title>
               </Card.Body>
