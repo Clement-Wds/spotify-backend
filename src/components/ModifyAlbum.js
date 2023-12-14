@@ -20,7 +20,7 @@ const ModifyAlbum = () => {
         setTitle(response.data.title);
         setArtistId(response.data.artist_id); // Update artistId when you fetch the album data
       } catch (error) {
-        console.error('Une erreur est survenue', error);
+        alert('Une erreur est survenue', error);
       }
     };
 
@@ -39,7 +39,7 @@ const ModifyAlbum = () => {
         });
         setMusics(sortedMusics); // Mettre à jour l'état des musiques lorsque vous récupérez les données des musiques
       } catch (error) {
-        console.error('Une erreur est survenue', error);
+        alert('Une erreur est survenue', error);
       }
     };
 
@@ -57,10 +57,6 @@ const ModifyAlbum = () => {
 
     setMusics(items);
   };
-
-  // useEffect(() => {
-  //   console.log(musics[id]);
-  // });
   const handleSubmit = async e => {
     e.preventDefault();
     try {
@@ -100,12 +96,14 @@ const ModifyAlbum = () => {
         navigate('/home');
       }
     } catch (error) {
-      console.error(
+      alert(
         "Une erreur est survenue lors de la modification de l'album",
         error,
       );
       if (error.response && error.response.status === 403) {
         // Si le statut de la réponse est 403, rediriger vers la page de connexion
+        localStorage.removeItem('token');
+
         navigate('/');
       }
     }

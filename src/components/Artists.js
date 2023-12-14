@@ -30,7 +30,7 @@ const Artists = () => {
         }
         setArtists(artistsData);
       } catch (error) {
-        console.error('Une erreur est survenue', error);
+        alert('Une erreur est survenue', error);
       }
     };
 
@@ -52,7 +52,7 @@ const Artists = () => {
         handleClose();
       }
     } catch (error) {
-      console.error(
+      alert(
         "Une erreur est survenue lors de la suppression de l'artiste",
         error,
       );

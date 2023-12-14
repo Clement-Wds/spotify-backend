@@ -16,7 +16,7 @@ const ModifyArtist = () => {
         );
         setName(response.data.name);
       } catch (error) {
-        console.error('Une erreur est survenue', error);
+        alert('Une erreur est survenue', error);
       }
     };
 
@@ -38,12 +38,14 @@ const ModifyArtist = () => {
 
       navigate('/home');
     } catch (error) {
-      console.error(
+      alert(
         "Une erreur est survenue lors de la modification de l'artiste",
         error,
       );
       if (error.response && error.response.status === 403) {
         // Si le statut de la réponse est 403, rediriger vers la page de connexion
+        localStorage.removeItem('token');
+
         navigate('/');
       }
     }

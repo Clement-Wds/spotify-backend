@@ -32,7 +32,7 @@ const LoginPage = () => {
         alert('Erreur de connexion');
       }
     } catch (error) {
-      console.error('Une erreur est survenue', error);
+      alert('Une erreur est survenue', error);
     }
   };
 
