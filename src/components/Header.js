@@ -38,6 +38,13 @@ const Header = () => {
           Créer une musique
         </Button>
         <Button
+          variant="outline-info"
+          as={Link}
+          to="/search"
+          style={{margin: '0 10px'}}>
+          Rechercher
+        </Button>
+        <Button
           variant="outline-danger"
           onClick={handleSignOut}
           as={Link}
