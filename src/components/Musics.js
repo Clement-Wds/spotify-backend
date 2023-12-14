@@ -35,6 +35,10 @@ const Musics = () => {
 
     fetchMusics();
   }, []);
+
+  useEffect(() => {
+    console.log(musics);
+  });
   const deleteMusic = async musicId => {
     try {
       const token = localStorage.getItem('token');

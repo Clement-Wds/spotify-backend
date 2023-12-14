@@ -7,6 +7,7 @@ import AddMusicPage from './pages/AddMusicPage';
 import ModifyArtist from './pages/ModifyArtistPage';
 import ModifyAlbum from './pages/ModifyAlbumPage';
 import ModifyMusic from './pages/ModifyMusicPage';
+import Search from './pages/SearchPage';
 
 import HomePage from './pages/HomePage';
 
@@ -23,6 +24,7 @@ function App() {
         <Route path="/artist/edit/:id" element={<ModifyArtist />} />
         <Route path="/album/edit/:id" element={<ModifyAlbum />} />
         <Route path="/music/edit/:id" element={<ModifyMusic />} />
+        <Route path="/search" element={<Search />} />
       </Routes>
     </Router>
   );
