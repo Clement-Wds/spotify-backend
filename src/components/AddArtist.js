@@ -30,9 +30,11 @@ const AddArtistPage = () => {
         alert("Erreur lors de l'ajout de l'artiste");
       }
     } catch (error) {
-      console.error('Une erreur est survenue', error);
+      alert('Une erreur est survenue', error);
       if (error.response && error.response.status === 403) {
         // Si le statut de la réponse est 403, rediriger vers la page de connexion
+        localStorage.removeItem('token');
+
         navigate('/');
       }
     }

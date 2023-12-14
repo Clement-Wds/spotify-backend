@@ -29,16 +29,13 @@ const Musics = () => {
         }
         setMusics(musicsData);
       } catch (error) {
-        console.error('Une erreur est survenue', error);
+        alert('Une erreur est survenue', error);
       }
     };
 
     fetchMusics();
   }, []);
 
-  useEffect(() => {
-    console.log(musics);
-  });
   const deleteMusic = async musicId => {
     try {
       const token = localStorage.getItem('token');
@@ -55,7 +52,7 @@ const Musics = () => {
         handleClose();
       }
     } catch (error) {
-      console.error(
+      alert(
         'Une erreur est survenue lors de la suppression de la musique',
         error,
       );

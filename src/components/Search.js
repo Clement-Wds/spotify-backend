@@ -81,13 +81,12 @@ const SearchArtist = () => {
         })
           .then(async res => {
             setIsLoading(false);
-            console.log(res.data);
             const dataWithImages = await fetchImages(res.data);
             setData(dataWithImages);
           })
           .catch(err => {
             setIsLoading(false);
-            console.log(err);
+            alert('une erreur est survenue', err);
           });
       }, 300);
     } else {
@@ -113,7 +112,7 @@ const SearchArtist = () => {
         setInput('');
       }
     } catch (error) {
-      console.error(
+      alert(
         "Une erreur est survenue lors de la suppression de l'artiste",
         error,
       );
@@ -139,10 +138,7 @@ const SearchArtist = () => {
         handleClose();
       }
     } catch (error) {
-      console.error(
-        "Une erreur est survenue lors de la suppression de l'album",
-        error,
-      );
+      alert("Une erreur est survenue lors de la suppression de l'album", error);
       if (error.response && error.response.status === 403) {
         // Si le statut de la réponse est 403, rediriger vers la page de connexion
         navigate('/');
@@ -165,7 +161,7 @@ const SearchArtist = () => {
         handleClose();
       }
     } catch (error) {
-      console.error(
+      alert(
         'Une erreur est survenue lors de la suppression de la musique',
         error,
       );

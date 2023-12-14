@@ -21,7 +21,7 @@ const Albums = () => {
         const response = await axios.get('http://localhost:3001/api/albums');
         setAlbums(response.data);
       } catch (error) {
-        console.error('Une erreur est survenue', error);
+        alert('Une erreur est survenue', error);
       }
     };
 
@@ -43,10 +43,7 @@ const Albums = () => {
         handleClose();
       }
     } catch (error) {
-      console.error(
-        "Une erreur est survenue lors de la suppression de l'album",
-        error,
-      );
+      alert("Une erreur est survenue lors de la suppression de l'album", error);
       if (error.response && error.response.status === 403) {
         // Si le statut de la réponse est 403, rediriger vers la page de connexion
         navigate('/');
