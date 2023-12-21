@@ -13,7 +13,7 @@ const Header = () => {
       variant="dark"
       style={{display: 'flex', justifyContent: 'space-between'}}>
       <Navbar.Brand as={Link} to="/">
-        Spotify Backend
+        Spotify BackOffice
       </Navbar.Brand>
       <div>
         <Button
@@ -36,6 +36,13 @@ const Header = () => {
           to="/music/create"
           style={{margin: '0 10px'}}>
           Créer une musique
+        </Button>
+        <Button
+          variant="outline-info"
+          as={Link}
+          to="/search"
+          style={{margin: '0 10px'}}>
+          Rechercher
         </Button>
         <Button
           variant="outline-danger"

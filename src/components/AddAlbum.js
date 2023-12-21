@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import {Container, Form, Button, Card} from 'react-bootstrap';
+import {useNavigate} from 'react-router-dom';
 
 const AddAlbumPage = () => {
   const [title, setTitle] = useState('');
@@ -8,11 +9,16 @@ const AddAlbumPage = () => {
   const [artists, setArtists] = useState([]);
   const [newArtist, setNewArtist] = useState(false);
   const [newArtistName, setNewArtistName] = useState('');
+  const [coverImage, setCoverImage] = useState(null); // Ajout d'un état pour l'image de couverture
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchArtists = async () => {
       const response = await axios.get('http://localhost:3001/api/artists');
       setArtists(response.data);
+      if (response.data.length > 0) {
+        setArtistId(response.data[0].id);
+      }
     };
     fetchArtists();
   }, []);
@@ -38,15 +44,18 @@ const AddAlbumPage = () => {
         artistIdToUse = artistResponse.data.id;
       }
 
+      const formData = new FormData(); // Utilisation de FormData pour envoyer l'image
+      formData.append('title', title);
+      formData.append('artist_id', artistIdToUse);
+      formData.append('coverImagePath', coverImage); // Ajout de l'image de couverture
+
       const response = await axios.post(
         'http://localhost:3001/api/album',
-        {
-          title,
-          artist_id: artistIdToUse,
-        },
+        formData,
         {
           headers: {
             Authorization: `Bearer ${token}`,
+            'Content-Type': 'multipart/form-data', // Définition du type de contenu pour l'envoi de fichiers
           },
         },
       );
@@ -57,7 +66,12 @@ const AddAlbumPage = () => {
         alert("Erreur lors de l'ajout de l'album");
       }
     } catch (error) {
-      console.error('Une erreur est survenue', error);
+      alert('Une erreur est survenue', error);
+      if (error.response && error.response.status === 403) {
+        // Si le statut de la réponse est 403, rediriger vers la page de connexion
+        localStorage.removeItem('token');
+        navigate('/');
+      }
     }
   };
 
@@ -73,6 +87,13 @@ const AddAlbumPage = () => {
               type="text"
               value={title}
               onChange={e => setTitle(e.target.value)}
+            />
+          </Form.Group>
+          <Form.Group className="mb-3">
+            <Form.Label>Image de couverture :</Form.Label>
+            <Form.Control
+              type="file"
+              onChange={e => setCoverImage(e.target.files[0])} // Mise à jour de l'état de l'image de couverture lorsqu'un fichier est sélectionné
             />
           </Form.Group>
           <Form.Group className="mb-3">

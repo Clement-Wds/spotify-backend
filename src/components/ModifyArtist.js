@@ -1,36 +1,47 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import axios from 'axios';
-import {Container, Form, Button, Card} from 'react-bootstrap';
-import {useNavigate} from 'react-router-dom';
+import {useParams, useNavigate} from 'react-router-dom';
+import {Container, Card, Form, Button} from 'react-bootstrap';
 
-const AddArtistPage = () => {
+const ModifyArtist = () => {
   const [name, setName] = useState('');
+  const {id} = useParams();
   const navigate = useNavigate();
 
-  const handleSubmit = async event => {
-    event.preventDefault();
+  useEffect(() => {
+    const fetchArtist = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:3001/api/artist/${id}`,
+        );
+        setName(response.data.name);
+      } catch (error) {
+        alert('Une erreur est survenue', error);
+      }
+    };
+
+    fetchArtist();
+  }, [id]);
+
+  const handleSubmit = async e => {
+    e.preventDefault();
 
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.post(
-        'http://localhost:3001/api/artist',
+      await axios.put(
+        `http://localhost:3001/api/artist/${id}`,
+        {name},
         {
-          name,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: {Authorization: `Bearer ${token}`},
         },
       );
 
-      if (response.data) {
-        alert('Artiste ajouté avec succès !');
-      } else {
-        alert("Erreur lors de l'ajout de l'artiste");
-      }
+      navigate('/home');
     } catch (error) {
-      alert('Une erreur est survenue', error);
+      alert(
+        "Une erreur est survenue lors de la modification de l'artiste",
+        error,
+      );
       if (error.response && error.response.status === 403) {
         // Si le statut de la réponse est 403, rediriger vers la page de connexion
         localStorage.removeItem('token');
@@ -56,7 +67,7 @@ const AddArtistPage = () => {
           </Form.Group>
           <Form.Group className="mb-3 d-flex justify-content-center">
             <Button variant="primary" type="submit">
-              Ajouter un artiste
+              Modifier l'artiste
             </Button>
           </Form.Group>
         </Form>
@@ -65,4 +76,4 @@ const AddArtistPage = () => {
   );
 };
 
-export default AddArtistPage;
+export default ModifyArtist;
