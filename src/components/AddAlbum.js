@@ -14,9 +14,7 @@ const AddAlbumPage = () => {
 
   useEffect(() => {
     const fetchArtists = async () => {
-      const response = await axios.get(
-        'https://spotify-api-eosin-theta.vercel.app/api/artists',
-      );
+      const response = await axios.get('http://localhost:3001/api/artists');
       setArtists(response.data);
       if (response.data.length > 0) {
         setArtistId(response.data[0].id);
@@ -33,7 +31,7 @@ const AddAlbumPage = () => {
       let artistIdToUse = artistId;
       if (newArtist) {
         const artistResponse = await axios.post(
-          'https://spotify-api-eosin-theta.vercel.app/api/artist',
+          'http://localhost:3001/api/artist',
           {
             name: newArtistName,
           },
@@ -52,7 +50,7 @@ const AddAlbumPage = () => {
       formData.append('coverImagePath', coverImage); // Ajout de l'image de couverture
 
       const response = await axios.post(
-        'https://spotify-api-eosin-theta.vercel.app/api/album',
+        'http://localhost:3001/api/album',
         formData,
         {
           headers: {
