@@ -18,9 +18,7 @@ const Albums = () => {
   useEffect(() => {
     const fetchAlbums = async () => {
       try {
-        const response = await axios.get(
-          'https://spotify-api-eosin-theta.vercel.app/api/albums',
-        );
+        const response = await axios.get('http://localhost:3001/api/albums');
         setAlbums(response.data);
       } catch (error) {
         alert('Une erreur est survenue', error);
@@ -33,7 +31,7 @@ const Albums = () => {
     try {
       const token = localStorage.getItem('token');
       const response = await axios.delete(
-        `https://spotify-api-eosin-theta.vercel.app/api/album/${albumId}`,
+        `http://localhost:3001/api/album/${albumId}`,
         {
           headers: {Authorization: `Bearer ${token}`},
         },
@@ -63,7 +61,7 @@ const Albums = () => {
               style={{cursor: 'pointer'}}>
               <Card.Img
                 variant="top"
-                src={`https://spotify-api-eosin-theta.vercel.app/api/album/image/${album.id}`}
+                src={`http://localhost:3001/api/album/image/${album.id}`}
                 style={{width: '100%', height: '250px', objectFit: 'cover'}}
               />
               <Card.Body>
