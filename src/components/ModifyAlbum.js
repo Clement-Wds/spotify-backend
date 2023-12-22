@@ -15,7 +15,7 @@ const ModifyAlbum = () => {
     const fetchAlbum = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3001/api/album/${id}`,
+          `https://spotify-api-eosin-theta.vercel.app/api/album/${id}`,
         );
         setTitle(response.data.title);
         setArtistId(response.data.artist_id); // Update artistId when you fetch the album data
@@ -27,7 +27,7 @@ const ModifyAlbum = () => {
     const fetchMusics = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3001/api/album/${id}/musics`,
+          `https://spotify-api-eosin-theta.vercel.app/api/album/${id}/musics`,
         );
         const sortedMusics = response.data.sort((a, b) => {
           if (a.trackNumber === null && b.trackNumber === null) {
@@ -69,7 +69,7 @@ const ModifyAlbum = () => {
       }
 
       const response = await axios.put(
-        `http://localhost:3001/api/album/${id}`,
+        `https://spotify-api-eosin-theta.vercel.app/api/album/${id}`,
         formData,
         {
           headers: {
@@ -82,7 +82,7 @@ const ModifyAlbum = () => {
       if (response.status === 200) {
         for (let i = 0; i < musics.length; i++) {
           await axios.put(
-            `http://localhost:3001/api/music/${musics[i].id}`,
+            `https://spotify-api-eosin-theta.vercel.app/api/music/${musics[i].id}`,
             {
               trackNumber: i + 1, // Mettre à jour la trackNumber en fonction de l'ordre d'affichage
               artist_id: artistId, // Inclure l'id de l'artiste

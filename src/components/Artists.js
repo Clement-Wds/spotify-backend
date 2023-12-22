@@ -18,14 +18,16 @@ const Artists = () => {
   useEffect(() => {
     const fetchArtists = async () => {
       try {
-        const response = await axios.get('http://localhost:3001/api/artists');
+        const response = await axios.get(
+          'https://spotify-api-eosin-theta.vercel.app/api/artists',
+        );
         const artistsData = response.data;
         for (let artist of artistsData) {
           const albumsResponse = await axios.get(
-            `http://localhost:3001/api/artist/${artist.id}/albums`,
+            `https://spotify-api-eosin-theta.vercel.app/api/artist/${artist.id}/albums`,
           );
           if (albumsResponse.data.length > 0) {
-            artist.albumImage = `http://localhost:3001/api/album/image/${albumsResponse.data[0].id}`;
+            artist.albumImage = `https://spotify-api-eosin-theta.vercel.app/api/album/image/${albumsResponse.data[0].id}`;
           }
         }
         setArtists(artistsData);
@@ -40,7 +42,7 @@ const Artists = () => {
     try {
       const token = localStorage.getItem('token');
       const response = await axios.delete(
-        `http://localhost:3001/api/artist/${artistId}`,
+        `https://spotify-api-eosin-theta.vercel.app/api/artist/${artistId}`,
         {
           headers: {Authorization: `Bearer ${token}`},
         },
