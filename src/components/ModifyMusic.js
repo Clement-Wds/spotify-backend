@@ -14,7 +14,7 @@ const ModifyMusic = () => {
     const fetchMusic = async () => {
       try {
         const response = await axios.get(
-          `https://spotify-api-eosin-theta.vercel.app/api/music/${id}`,
+          `http://localhost:3001/api/music/${id}`,
         );
         setTitle(response.data.title);
         setAlbumId(response.data.album_id); // Update albumId when you fetch the album data
@@ -32,7 +32,7 @@ const ModifyMusic = () => {
     try {
       const token = localStorage.getItem('token');
       await axios.put(
-        `https://spotify-api-eosin-theta.vercel.app/api/music/${id}`,
+        `http://localhost:3001/api/music/${id}`,
         {title, artist_id: artistId, album_id: albumId}, // Include artist_id in your request body
         {
           headers: {Authorization: `Bearer ${token}`},

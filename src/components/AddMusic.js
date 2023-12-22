@@ -22,7 +22,7 @@ const AddMusic = () => {
     const fetchAlbums = async () => {
       if (artistId) {
         const response = await axios.get(
-          `https://spotify-api-eosin-theta.vercel.app/api/artist/${artistId}/albums`,
+          `http://localhost:3001/api/artist/${artistId}/albums`,
         );
         setAlbums(response.data);
         if (response.data.length > 0) {
@@ -38,9 +38,7 @@ const AddMusic = () => {
 
   useEffect(() => {
     const fetchArtists = async () => {
-      const response = await axios.get(
-        'https://spotify-api-eosin-theta.vercel.app/api/artists',
-      );
+      const response = await axios.get('http://localhost:3001/api/artists');
       setArtists(response.data);
       if (response.data.length > 0) {
         // Check if the artist list is not empty
@@ -59,7 +57,7 @@ const AddMusic = () => {
       let artistIdToUse = artistId;
       if (newArtist) {
         const artistResponse = await axios.post(
-          'https://spotify-api-eosin-theta.vercel.app/api/artist',
+          'http://localhost:3001/api/artist',
           {
             name: newArtistName,
           },
@@ -79,7 +77,7 @@ const AddMusic = () => {
         formDataNewAlbum.append('artist_id', artistIdToUse);
         formDataNewAlbum.append('coverImagePath', coverImage);
         const albumResponse = await axios.post(
-          'https://spotify-api-eosin-theta.vercel.app/api/album',
+          'http://localhost:3001/api/album',
           formDataNewAlbum,
           {
             headers: {
@@ -99,7 +97,7 @@ const AddMusic = () => {
       formData.append('file', file); // Ajout du fichier
 
       const response = await axios.post(
-        'https://spotify-api-eosin-theta.vercel.app/api/music',
+        'http://localhost:3001/api/music',
         formData, // Envoi de l'objet FormData
         {
           headers: {

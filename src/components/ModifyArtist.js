@@ -12,7 +12,7 @@ const ModifyArtist = () => {
     const fetchArtist = async () => {
       try {
         const response = await axios.get(
-          `https://spotify-api-eosin-theta.vercel.app/api/artist/${id}`,
+          `http://localhost:3001/api/artist/${id}`,
         );
         setName(response.data.name);
       } catch (error) {
@@ -29,7 +29,7 @@ const ModifyArtist = () => {
     try {
       const token = localStorage.getItem('token');
       await axios.put(
-        `https://spotify-api-eosin-theta.vercel.app/api/artist/${id}`,
+        `http://localhost:3001/api/artist/${id}`,
         {name},
         {
           headers: {Authorization: `Bearer ${token}`},
