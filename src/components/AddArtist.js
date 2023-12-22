@@ -13,7 +13,7 @@ const AddArtistPage = () => {
     try {
       const token = localStorage.getItem('token');
       const response = await axios.post(
-        'http://localhost:3001/api/artist',
+        'https://spotify-api-eosin-theta.vercel.app/api/artist',
         {
           name,
         },

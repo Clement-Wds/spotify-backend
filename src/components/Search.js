@@ -42,26 +42,26 @@ const SearchArtist = () => {
   const fetchImages = async data => {
     for (let artist of data.artists) {
       const albumsResponse = await axios.get(
-        `http://localhost:3001/api/artist/${artist.id}/albums`,
+        `https://spotify-api-eosin-theta.vercel.app/api/artist/${artist.id}/albums`,
       );
       if (albumsResponse.data.length > 0) {
-        artist.albumImage = `http://localhost:3001/api/album/image/${albumsResponse.data[0].id}`;
+        artist.albumImage = `https://spotify-api-eosin-theta.vercel.app/api/album/image/${albumsResponse.data[0].id}`;
       }
     }
     for (let album of data.albums) {
       const albumsResponse = await axios.get(
-        `http://localhost:3001/api/artist/${album.artist_id}/albums`,
+        `https://spotify-api-eosin-theta.vercel.app/api/artist/${album.artist_id}/albums`,
       );
       if (albumsResponse.data.length > 0) {
-        album.albumImage = `http://localhost:3001/api/album/image/${albumsResponse.data[0].id}`;
+        album.albumImage = `https://spotify-api-eosin-theta.vercel.app/api/album/image/${albumsResponse.data[0].id}`;
       }
     }
     for (let music of data.musics) {
       const albumsResponse = await axios.get(
-        `http://localhost:3001/api/artist/${music.artist_id}/albums`,
+        `https://spotify-api-eosin-theta.vercel.app/api/artist/${music.artist_id}/albums`,
       );
       if (albumsResponse.data.length > 0) {
-        music.albumImage = `http://localhost:3001/api/album/image/${albumsResponse.data[0].id}`;
+        music.albumImage = `https://spotify-api-eosin-theta.vercel.app/api/album/image/${albumsResponse.data[0].id}`;
       }
     }
     return data;
@@ -77,7 +77,7 @@ const SearchArtist = () => {
       callRef.current = setTimeout(() => {
         axios({
           method: 'GET',
-          url: `http://localhost:3001/api/search?q=${input}`,
+          url: `https://spotify-api-eosin-theta.vercel.app/api/search?q=${input}`,
         })
           .then(async res => {
             setIsLoading(false);
@@ -99,7 +99,7 @@ const SearchArtist = () => {
     try {
       const token = localStorage.getItem('token');
       const response = await axios.delete(
-        `http://localhost:3001/api/artist/${artistId}`,
+        `https://spotify-api-eosin-theta.vercel.app/api/artist/${artistId}`,
         {
           headers: {Authorization: `Bearer ${token}`},
         },
@@ -126,7 +126,7 @@ const SearchArtist = () => {
     try {
       const token = localStorage.getItem('token');
       const response = await axios.delete(
-        `http://localhost:3001/api/album/${albumId}`,
+        `https://spotify-api-eosin-theta.vercel.app/api/album/${albumId}`,
         {
           headers: {Authorization: `Bearer ${token}`},
         },
@@ -149,7 +149,7 @@ const SearchArtist = () => {
     try {
       const token = localStorage.getItem('token');
       const response = await axios.delete(
-        `http://localhost:3001/api/music/${musicId}`,
+        `https://spotify-api-eosin-theta.vercel.app/api/music/${musicId}`,
         {
           headers: {Authorization: `Bearer ${token}`},
         },
